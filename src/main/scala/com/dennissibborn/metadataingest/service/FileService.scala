@@ -7,9 +7,10 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 
-import java.io.{BufferedReader, InputStreamReader}
 import scala.jdk.CollectionConverters.*
+import java.io.{BufferedReader, InputStreamReader}
 
 @Service
 class FileService {
@@ -37,12 +38,14 @@ class FileService {
       .build()
     case _ => s3Client
 
+  @CircuitBreaker(name = "fileService", fallbackMethod = "fallback")
   def getS3FileNames: List[String] = {
     val s3 = getS3Client
     val objectListing = s3.listObjects(awsS3Bucket)
     s3.listObjects(awsS3Bucket).getObjectSummaries.asScala.toList.map(f => f.getKey)
   }
 
+  @CircuitBreaker(name = "fileService", fallbackMethod = "fallback")
   def getS3FileData(fileName: String): String = {
     val s3 = getS3Client
     val s3Obj = s3.getObject(awsS3Bucket, fileName)
@@ -57,6 +60,10 @@ class FileService {
     val yamlReader = new ObjectMapper(new YAMLFactory)
     val yamlObj = yamlReader.readValue(yamlData, classOf[Any])
     yamlObj
+  }
+
+  def fallback(t: Throwable): ResponseEntity[Map[String, Any]] = {
+    ResponseEntity.internalServerError().body(Map("message" -> "Request Timeout"))
   }
 
 }
