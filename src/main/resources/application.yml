@@ -5,3 +5,12 @@ spring:
   application:
     name: metadata-ingest
 
+
+aws:
+  region: us-east-1
+  access-key: ${APP_AWS_ACCESS_KEY}
+  secret-key: ${APP_AWS_SECRET_KEY}
+
+  s3:
+    bucket: ${APP_AWS_S3_BUCKET}
+
