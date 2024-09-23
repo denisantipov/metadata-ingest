@@ -19,6 +19,10 @@ The package includes
 ## Building
 The easiest is to use IntelliJ Ultimate to build this module, or alternatively have command line maven, docker, Oracle Java 21 setup
 
+```bash
+mvn package
+mvn spring-boot:run
+```
 ## Running
 
 make sure you have an .env file or have the following variables set in the shell with the appropriate values from the AWS account
