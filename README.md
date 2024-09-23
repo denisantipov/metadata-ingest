@@ -13,7 +13,6 @@ The package includes
 * Swagger OpenAPI
 * Maven build POM
 * Docker image and template
-* HTTPS listener (prod profile) using self-signed certs
 * JUnit5 tests
 * Actuator endpoints for liveness and readiness endpoints
 
