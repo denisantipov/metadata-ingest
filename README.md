@@ -39,7 +39,7 @@ java -jar target/metadata-ingest-0.0.1-SNAPSHOT.jar
 Run using Docker (once you've build the project jar target/metadata-ingest-0.0.1-SNAPSHOT.jar):
 ```bash
 docker build -t metadata-ingest .
-docker run -p 8080:8080 dennissibborn/metadata-ingest:main
+docker run -p 8080:8080 -t metadata-ingest
 ```
 
 
